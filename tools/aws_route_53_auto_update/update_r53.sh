@@ -8,7 +8,7 @@
 # Assign that role to your instance
 # Preriquisites
 # Install aws cli
-#sudo apt intall awscli -y
+#sudo apt install awscli -y
 # Make Script executable and copy to /var/lib/cloud/scripts/per-boot
 #sudo chmod +x update_r53.sh
 
