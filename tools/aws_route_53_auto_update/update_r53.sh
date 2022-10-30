@@ -3,7 +3,7 @@
 # Tested on Ubuntu ARM EC2 Instance
 # To Create Policy and EC2 Role follow: https://dev.to/aws/amazon-route-53-how-to-automatically-update-ip-addresses-without-using-elastic-ips-h7o
 # OR
-# Create a Policy to allow editing a particular hosted Zone
+# Create a Policy to allow editing a particular hosted Zone and EC2 describe tags
 # Create EC2 Role and assign it that Policy
 # Assign that role to your instance
 # Preriquisites
