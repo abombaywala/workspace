@@ -1,4 +1,3 @@
-temp code workspace
-Leetcode
-Snippits
-Links
+- temp code workspace for Leetcode and others
+- Snippits
+- Links
