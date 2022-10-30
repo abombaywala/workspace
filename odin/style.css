@@ -1,0 +1,167 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.flex-one {
+    background: white;
+    color: #1F2937;
+    height: auto;
+    width: auto;
+    display: flex;
+    margin: 10px;
+}
+
+.flex-two {
+    background: #1F2937;
+    color: white;
+    height: auto;
+    width: auto;
+    display: flex;
+    align-items: center;
+    padding: 30px;
+}
+
+.flex-three {
+    background: white;
+    color: #3882F600;
+    height: auto;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-three-2 {
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-four {
+    background: #E5E7EB;
+    color: #1F2937;
+    height: 200px;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.flex-five {
+    background: white;
+    height: 200px;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-five-1 {
+    background: royalblue;
+    height: 100px;
+    width: auto;
+    display: flex;
+    border-radius: 8px;
+    margin: 15px;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-five-text {
+    display: flex;
+    flex-direction: column;
+    margin: 15px;
+    padding: 10px;
+    color: white;
+}
+
+.flex-six {
+    background :#1F2937;
+    color: white;
+    height: auto;
+    width: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.copyright_text {
+    color: white;
+    font-size: auto;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.quote {
+    font-size: 30px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: bold;
+    text-align: center;
+}
+
+.logo {
+    font-size: 30px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
+    color: #1F2937;
+    display: flex;
+}
+
+.header_links {
+    font-size: 20px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin-left: 200px; /* using margin to push left*/
+    color: #1F2937;
+    display: flex;
+}
+
+.image-box {
+    width: auto;
+    height: auto;
+    background-color: gray;
+    display: flex;
+    margin : 30px;
+    padding: 30px;
+}
+
+.flex-two-1-text {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.sign-in-button {
+    background-color: rgb(0, 153, 255);
+    border: none;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 12px; /* rounded corners */
+}
+
+.flex-three-1-text {
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    margin: 15px;
+}
+
+.project-button {
+    background-color: seashell;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+    color: royalblue;
+    margin: 10px;
+    border-radius: 8px;
+    border-color: royalblue;
+}
+
+.flex-five-text-1 {
+    font-size: 20px;
+    font-weight: bold;
+}
