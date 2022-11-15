@@ -1,0 +1,90 @@
+version: "3.3"
+
+services:
+  traefik:
+    image: "traefik:latest"
+    restart: always
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=admin@devops123.xyz"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./letsencrypt:/letsencrypt"
+
+  blog:
+    image: ghost:alpine
+    restart: always
+    environment:
+      database__client: mysql
+      database__connection__host: db
+      database__connection__user: root
+      database__connection__password: example
+      database__connection__database: ghost
+      url: http://blog.aws.devops123.xyz:80
+      NODE_ENV: production
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.blog-http.entrypoints=web"
+      - "traefik.http.routers.blog-http.rule=Host(`blog.aws.devops123.xyz`)"
+      - "traefik.http.routers.blog-http.middlewares=blog-https"
+      - "traefik.http.middlewares.blog-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.blog.entrypoints=websecure"
+      - "traefik.http.routers.blog.rule=Host(`blog.aws.devops123.xyz`)"
+      - "traefik.http.routers.blog.tls=true"
+      - "traefik.http.routers.blog.tls.certresolver=myresolver"
+
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+
+  db_wiki:
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_DB: wiki
+      POSTGRES_PASSWORD: wikijsrocks
+      POSTGRES_USER: wikijs
+    logging:
+      driver: "none"
+    restart: unless-stopped
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  wiki:
+    image: requarks/wiki:2
+    depends_on:
+      - db_wiki
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: db_wiki
+      DB_PORT: 5432
+      DB_USER: wikijs
+      DB_PASS: wikijsrocks
+      DB_NAME: wiki  # You will need to create Database wiki else it will throw error
+      SSL_ACTIVE: fasle
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.wiki-http.entrypoints=web"
+      - "traefik.http.routers.wiki-http.rule=Host(`docs.aws.devops123.xyz`)"
+      - "traefik.http.routers.wiki-http.middlewares=wiki-https"
+      - "traefik.http.middlewares.wiki-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.wiki.entrypoints=websecure"
+      - "traefik.http.routers.wiki.rule=Host(`docs.aws.devops123.xyz`)"
+      - "traefik.http.routers.wiki.tls=true"
+      - "traefik.http.routers.wiki.tls.certresolver=myresolver"
+
+volumes:
+  db-data:

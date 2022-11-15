@@ -1,0 +1,31 @@
+version: "3.3"
+
+services:
+  traefik:
+    image: "traefik:v2.6"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  whoami:
+    image: "traefik/whoami"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`blog.aws.devops123.xyz`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+
+  whoami2:
+    image: "nginxdemos/hello"
+    scale: 1
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami2.rule=Host(`blog.aws.devops123.xyz`) && Path(`/hello`)"
+      - "traefik.http.routers.whoami2.entrypoints=web"
