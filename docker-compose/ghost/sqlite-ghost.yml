@@ -5,18 +5,18 @@ services:
     image: "traefik:latest"
     restart: always
     command:
-      - "--log.level=DEBUG"
-      - "--api.insecure=true"
+      #- "--log.level=DEBUG"
+      #- "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.email=admin@example.com"
+      - "--certificatesresolvers.myresolver.acme.email=admin@bywayes.com"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     ports:
       - "80:80"
-      - "8080:8080"
+      #- "8080:8080"
       - "443:443"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
@@ -25,34 +25,22 @@ services:
   blog:
     image: ghost:latest
     restart: always
-    depends_on:
-      - db
-      - traefik
     environment:
-      database__client: mysql
-      database__connection__host: db
-      database__connection__user: root
-      database__connection__password: "${DB_PASSWORD}"
-      database__connection__database: ghost
+      database__client: sqlite3
+      database__connection__filename: "content/ghost.db"
+      database__useNullAsDefault: true
+      database__debug: false
       url: http://bywayes.com:80
       NODE_ENV: production
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.blog-http.entrypoints=web"
-      - "traefik.http.routers.blog-http.rule=Host(`example.com`)"
+      - "traefik.http.routers.blog-http.rule=Host(`bywayes.com`)"
       - "traefik.http.routers.blog-http.middlewares=blog-https"
       - "traefik.http.middlewares.blog-https.redirectscheme.scheme=https"
       - "traefik.http.routers.blog.entrypoints=websecure"
-      - "traefik.http.routers.blog.rule=Host(`example.com`)"
+      - "traefik.http.routers.blog.rule=Host(`bywayes.com`)"
       - "traefik.http.routers.blog.tls=true"
       - "traefik.http.routers.blog.tls.certresolver=myresolver"
     volumes:
       - /home/ec2-user/docker/content:/var/lib/ghost/content
-
-  db:
-    image: mysql:latest
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
-    volumes:
-      - /home/ec2-user/docker/data:/var/lib/mysql
