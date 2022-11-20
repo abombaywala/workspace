@@ -1,5 +1,5 @@
 # https://www.reddit.com/r/selfhosted/comments/uvcop1/traefik_2x_letencrypt_traefik_cloudflare/
-version: '3'
+version: "3"
  
 services:
   reverse-proxy:
